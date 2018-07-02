@@ -9,6 +9,7 @@ install:
   - pip install coveralls
   - pip install bs4 
   - pip install mysql-connector
+  - pip install pydfs-lineup-optimizer
 script: 
   pytest --cov=MLB_Engine tests/;
 after_success:
