@@ -7,6 +7,55 @@ from pytz import timezone
 '''
 Fanduel Scraper that scrapes rotogur for predicitions and optimizes lineups in place
 '''
+
+class RotoScraper():
+    def __init__(self, url):
+        self.url = url
+        self.players = []
+        self.finished_games = []
+       
+    def get_soup(self):
+        pass 
+
+    def get_players(self):
+        playersSoup = self.soup.find_all('tr')
+        for i,count in zip(playersSoup[4:],range(len(playersSoup)-4)):
+            try:
+                name  = i.find_all('td')[1].text # name 
+                names = name.split()
+                name = names[0] + ' ' + names[1]
+                
+                
+                team  = i.find_all('td')[2].text.rstrip()# team
+                if team in self.finished_games:
+                    continue
+
+                pos = i.find_all('td')[3].text # pos
+                if pos == 'C1':
+                    pos = ['1B','C']
+                else:
+                    pos = [str(pos)]
+                sal = i.find_all('td')[6].find('input')['value']
+                sal = sal[1:]
+                sals = sal.split(",")
+                sal = sals[0] + sals[1]
+                rotoProj = i.find_all('td')[7].find('input')['value']
+                self.players.append(rotowirePlayer(name, sal, team, pos, rotoProj))
+
+            except Exception as e:
+                print e
+
+        return self.players
+
+class rotowirePlayer():
+    def __init__(self, name, sal, team, pos, proj):
+        self.name = name
+        self.sal = sal
+        self.team = team
+        self.pos = pos
+        self.proj = proj
+
+
 def predict():
     url = "https://www.rotowire.com/daily/mlb/optimizer.php?site=FanDuel&sport=mlb"
 
