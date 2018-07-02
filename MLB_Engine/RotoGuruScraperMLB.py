@@ -6,72 +6,32 @@ from pydfs_lineup_optimizer import * # version >= 2.0.1
 '''
 Fanduel Scraper that scrapes rotogur for predicitions and optimizes lineups in place
 '''
-def predict():
-    url = "https://www.rotowire.com/daily/mlb/optimizer.php?site=FanDuel&sport=mlb"
+class RotoGuruScraper():
+    def __init__(self, url):
+        self.url = url
+        self.players = []
+        self.finished_games = []
+       
+    def get_soup(self):
+        page = requests.get(self.url)
+        self.soup = BeautifulSoup(page.text, "html.parser")
 
-    page = requests.get(url)
-    soup = BeautifulSoup(page.text, 'html.parser')
+    def get_players(self):
+        for row in str(self.soup).split('\n')[:-1]:
+            rows = row.split(",")
+            names = rows[0][1:-1].split()
+            pos = rows[3]
+            team = rows[2]
+            sal = rows[1]
+            rotoProj = rows[7]
 
-    games = soup.find("div",{"id":"rwo-matchups"}).find_all("div",{"class":"rwo-game-team"})
-    zone = timezone("US/Eastern")
-    now = datetime.datetime.now(tz=zone).time().strftime('%H:%M:%S')
-    finished_games = []
-    for game in games:
-        team = game['data-team']
-        time = game['data-gametimeonly']
+            self.players.append(rotoPlayer(names[0] + " " + names[1], sal, team, pos, rotoProj))
+        return self.players
 
-        if now > time:
-            finished_games.append(team)
-
-
-    url = "https://rotogrinders.com/projected-stats/mlb-pitcher.csv?site=fanduel"
-    page = requests.get(url)
-    soup = BeautifulSoup(page.text, 'html.parser')
-    player_list = []
-
-    for row in str(soup).split('\n')[:-1]:
-        rows = row.split(",")
-        names = rows[0][1:-1].split()
-        pos = rows[3]
-        team = rows[2]
-        if team in finished_games:
-            continue
-        sal = rows[1]
-        rotoProj = rows[7]
-
-        player_list.append(Player(0, names[0], names[1], pos, team, float(sal), float(rotoProj), False))
-
-    url = "https://rotogrinders.com/projected-stats/mlb-hitter.csv?site=fanduel"
-    page = requests.get(url)
-    soup = BeautifulSoup(page.text, 'html.parser')
-
-    for row in str(soup).split('\n')[:-1]:
-        rows = row.split(",")
-        names = rows[0][1:-1].split()
-        pos = rows[3]
-        if pos == "C-1B":
-            pos = ["C", "1B"]
-        else:
-            pos = [pos]
-        team = rows[2]
-        if team in finished_games:
-            continue
-        sal = rows[1]
-        rotoProj = rows[7]
-
-        player_list.append(Player(0, names[0], names[1], pos, team, float(sal), float(rotoProj), False))
-
-    optimizer = get_optimizer(Site.FANDUEL, Sport.BASEBALL)
-    optimizer.load_players(player_list)
-
-    numLineups = 5
-
-    lineups = optimizer.optimize(n=numLineups, max_exposure=0.3)
-
-    for lineup in lineups:
-        print lineup
-    return lineups
-
-if __name__ == "__main__":
-
-    predict()
+class rotoPlayer():
+    def __init__(self, name, sal, team, pos, proj):
+        self.name = name
+        self.sal = sal
+        self.team = team
+        self.pos = pos
+        self.proj = proj

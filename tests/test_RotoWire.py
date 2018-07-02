@@ -24,3 +24,12 @@ class TestRotowirePlayers(unittest.TestCase):
         self.assertTrue("Daniel Murphy" in namedPlayers)
         self.assertTrue("Bryce Harper" in namedPlayers)
         self.assertEqual(bryce.sal, "4400")
+
+class TestRotoGuruSoup(unittest.TestCase):
+    def test(self):
+        url = "https://www.rotowire.com/daily/mlb/optimizer.php?site=FanDuel&sport=mlb"
+        roto = rws.RotoScraper(url)
+        roto.get_soup()
+
+        self.assertTrue(roto.soup is not None)
+
