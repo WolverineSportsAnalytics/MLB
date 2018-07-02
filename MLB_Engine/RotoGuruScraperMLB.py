@@ -1,7 +1,6 @@
 import requests
-import csv
 from bs4 import BeautifulSoup, Comment
-from pydfs_lineup_optimizer import * # version >= 2.0.1
+from WsaPlayer import WsaPlayer 
 
 '''
 Fanduel Scraper that scrapes rotogur for predicitions and optimizes lineups in place
@@ -25,13 +24,5 @@ class RotoGuruScraper():
             sal = rows[1]
             rotoProj = rows[7]
 
-            self.players.append(rotoPlayer(names[0] + " " + names[1], sal, team, pos, rotoProj))
+            self.players.append(WsaPlayer(names[0] + " " + names[1], sal, team, pos, None, rotoProj))
         return self.players
-
-class rotoPlayer():
-    def __init__(self, name, sal, team, pos, proj):
-        self.name = name
-        self.sal = sal
-        self.team = team
-        self.pos = pos
-        self.proj = proj

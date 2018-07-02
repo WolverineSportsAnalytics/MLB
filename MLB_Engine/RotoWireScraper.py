@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup, Comment
 from pydfs_lineup_optimizer import * # version >= 2.0.1
 import datetime
 from pytz import timezone
+from WsaPlayer import WsaPlayer
 
 '''
 Fanduel Scraper that scrapes rotogur for predicitions and optimizes lineups in place
@@ -41,21 +42,12 @@ class RotoScraper():
                 sals = sal.split(",")
                 sal = sals[0] + sals[1]
                 rotoProj = i.find_all('td')[7].find('input')['value']
-                self.players.append(rotowirePlayer(name, sal, team, pos, rotoProj))
+                self.players.append(WsaPlayer(name, sal, team, pos, rotoProj, None))
 
             except Exception as e:
                 print e
 
         return self.players
-
-class rotowirePlayer():
-    def __init__(self, name, sal, team, pos, proj):
-        self.name = name
-        self.sal = sal
-        self.team = team
-        self.pos = pos
-        self.proj = proj
-
 
 def predict():
     url = "https://www.rotowire.com/daily/mlb/optimizer.php?site=FanDuel&sport=mlb"
