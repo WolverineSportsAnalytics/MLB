@@ -10,7 +10,6 @@ install:
   - pip install bs4 
   - pip install mysql-connector
 script: 
-    pytest;
-    coverage run tests/test_basic.py
+  pytest --cov=MLB_Engine tests/;
 after_success:
   - coveralls
