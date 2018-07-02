@@ -1,0 +1,16 @@
+language: python
+services:
+    - mysql
+before_install:
+    - mysql -u root < tests/create_database.sql 
+install:
+  - pip install pytest
+  - pip install pytest-cov
+  - pip install coveralls
+  - pip install bs4 
+  - pip install mysql-connector
+script: 
+    pytest;
+    coverage run tests/test_basic.py
+after_success:
+  - coveralls

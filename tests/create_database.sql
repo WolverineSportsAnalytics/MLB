@@ -11,19 +11,19 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 -- Schema mydb
 -- -----------------------------------------------------
 -- -----------------------------------------------------
--- Schema mlb_test
+-- Schema mlb
 -- -----------------------------------------------------
 
 -- -----------------------------------------------------
 -- Schema wnb
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `mlb_test` DEFAULT CHARACTER SET utf8 ;
-USE `mlb_test` ;
+CREATE SCHEMA IF NOT EXISTS `mlb` DEFAULT CHARACTER SET utf8 ;
+USE `mlb` ;
 
 -- -----------------------------------------------------
 -- Table `mlb_test`.`box_score_urls`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mlb_test`.`lineups` (
+CREATE TABLE IF NOT EXISTS `mlb`.`lineups` (
   `lineupID` INT(11) NOT NULL AUTO_INCREMENT,
   `lineupNumber` INT(11) not Null,
   `date` Date,
