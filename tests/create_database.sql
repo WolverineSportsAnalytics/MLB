@@ -43,5 +43,16 @@ CREATE TABLE IF NOT EXISTS `mlb`.`lineups` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = latin1;
 
-
-
+CREATE TABLE IF NOT EXISTS `mlb`.`players` (
+  `playerTableID` INT(11) NOT NULL AUTO_INCREMENT,
+  `date` Date,
+  `Name` VARCHAR(45), 
+  `Position` VARCHAR(45),
+  `Team` VARCHAR(45),
+  `Salary` float default NULL,
+  `RotoWirePrediction` float default NULL,
+  `RotoGrinderPrediction` float default NULL,
+  PRIMARY KEY (`playerTableID`)
+)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = latin1;
