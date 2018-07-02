@@ -13,8 +13,21 @@ class RotoScraper():
     def __init__(self, url):
         self.url = url
         self.players = []
-        self.finished_games = []
-       
+        self.gameTimes = {}
+        self.startTimes = []
+
+    def get_game_times(self):
+        games = self.soup.find("div",{"id":"rwo-matchups"}).find_all("div",{"class":"rwo-game-team"})
+        zone = timezone("US/Eastern")
+        now = datetime.datetime.now(tz=zone).time().strftime('%H:%M:%S')
+        for game in games:
+            team = game['data-team']
+            time = game['data-gametimeonly']
+            self.gameTimes[team] = time
+            self.startTimes.append(time)
+
+        return self.gameTimes, set(self.startTimes)
+    
     def get_soup(self):
         page = requests.get(self.url)
         self.soup = BeautifulSoup(page.text, "html.parser")
@@ -29,8 +42,6 @@ class RotoScraper():
                 
                 
                 team  = i.find_all('td')[2].text.rstrip()# team
-                if team in self.finished_games:
-                    continue
 
                 pos = i.find_all('td')[3].text # pos
                 if pos == 'C1':
@@ -48,24 +59,3 @@ class RotoScraper():
                 print e
 
         return self.players
-
-def predict():
-    url = "https://www.rotowire.com/daily/mlb/optimizer.php?site=FanDuel&sport=mlb"
-
-    page = requests.get(url)
-    soup = BeautifulSoup(page.text, 'html.parser')
-
-    games = soup.find("div",{"id":"rwo-matchups"}).find_all("div",{"class":"rwo-game-team"})
-    zone = timezone("US/Eastern")
-    now = datetime.datetime.now(tz=zone).time().strftime('%H:%M:%S')
-    finished_games = []
-    for game in games:
-        team = game['data-team']
-        time = game['data-gametimeonly']
-
-        if now > time:
-            finished_games.append(team)
-
-if __name__ == "__main__":
-
-    predict()

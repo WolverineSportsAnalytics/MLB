@@ -1,0 +1,9 @@
+tests/*pyc
+tests/*swp
+tests/__pycache__/
+tests/.__pycache__/
+MLB_Engine/*pyc
+MLB_Engine/*swp
+.coverage
+tests/.pytest_cache
+.pytest_cache/

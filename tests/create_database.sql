@@ -24,11 +24,10 @@ USE `mlb` ;
 -- Table `mlb_test`.`box_score_urls`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mlb`.`lineups` (
-  `lineupID` INT(11) NOT NULL AUTO_INCREMENT,
   `lineupNumber` INT(11) not Null,
   `date` Date,
   `P` VARCHAR(45),
-  `C/1B` VARCHAR(45),
+  `C1B` VARCHAR(45),
   `2B` VARCHAR(45),
   `3B` VARCHAR(45),
   `SS` VARCHAR(45),
@@ -38,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `mlb`.`lineups` (
   `UTIL` VARCHAR(45),
   `lineupTime` TIME,
   `projectedPoints` float,
-  PRIMARY KEY (`lineupID`)
+  PRIMARY KEY (`date`, `lineupTime`, `lineupNumber`)
 )
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = latin1;
