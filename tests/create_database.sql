@@ -37,7 +37,8 @@ CREATE TABLE IF NOT EXISTS `mlb`.`lineups` (
   `UTIL` VARCHAR(45),
   `lineupTime` TIME,
   `projectedPoints` float,
-  PRIMARY KEY (`date`, `lineupTime`, `lineupNumber`)
+  `lineupType` VARCHAR(45),
+  PRIMARY KEY (`date`, `lineupTime`, `lineupNumber`, `lineupType`)
 )
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = latin1;
