@@ -1,3 +1,4 @@
+# WSA player object that can be inserted into table
 class WsaPlayer():
     def __init__(self, name, sal, team, pos, WireProj, GrinderProj):
         self.name = name
@@ -15,7 +16,7 @@ class WsaPlayer():
             query += " RotoGrindersProjection=%s"
             inserts = (date, self.name, self.pos, self.team, int(self.sal), self.WireProj, self.GrinderProj, self.GrinderProj)
         elif self.GrinderProj is None:
-            inserts = (date, self.name, self.pos, self.team, int(self.sal), self.WireProj, self.GrinderProj, self.WireProj)
-            query += " RotoWireProjection=%s"
+            inserts = (date, self.name, self.pos, self.team, int(self.sal), self.WireProj, self.GrinderProj, self.WireProj, self.team)
+            query += " RotoWireProjection=%s, team=%s"
 
         cursor.execute(query, inserts)

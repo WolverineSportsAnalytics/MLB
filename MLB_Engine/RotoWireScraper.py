@@ -6,7 +6,7 @@ from pytz import timezone
 from WsaPlayer import WsaPlayer
 
 '''
-Fanduel Scraper that scrapes rotogur for predicitions and optimizes lineups in place
+Fanduel Scraper that scrapes rotoWire for predicitions and returns a WsaPlayer list
 '''
 
 class RotoScraper():
@@ -16,6 +16,7 @@ class RotoScraper():
         self.gameTimes = {}
         self.startTimes = []
 
+    # Returns Dictionary of key:team value:starttime as well as a set of all start times
     def get_game_times(self):
         games = self.soup.find("div",{"id":"rwo-matchups"}).find_all("div",{"class":"rwo-game-team"})
         zone = timezone("US/Eastern")

@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup, Comment
 from WsaPlayer import WsaPlayer 
 
 '''
-Fanduel Scraper that scrapes rotogur for predicitions and optimizes lineups in place
+Fanduel Scraper that scrapes rotoGrinders for predicitions and returns a WsaPlayer Object
 '''
 class RotoGuruScraper():
     def __init__(self, url):
