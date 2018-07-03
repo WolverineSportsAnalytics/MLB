@@ -9,6 +9,7 @@ from selenium.webdriver.common.keys import Keys
 from bs4 import BeautifulSoup, Comment
 import time
 
+teamMap = {"CHW":"CWS", "TBR":"TB", "SDP":"SD", "KCR":"KC", "SFG":"SF"}
 
 
 class Slate():
@@ -43,8 +44,15 @@ class WsaEngine():
             teams = []
             for game in games:
                 split = game.find("span").text.split()
-                teams.append(split[0])
-                teams.append(split[2])
+                if split[0] in teamMap:
+                    teams.append(teamMap[split[0]])
+                else:
+                    teams.append(split[0])
+                if split[2] in teamMap:
+                    teams.append(teamMap[split[2]])
+                else:
+                    teams.append(split[2])
+
             slate_list.append(Slate(teams, name))
         
         browser.quit()
@@ -62,33 +70,22 @@ class WsaEngine():
         
         cnx.commit()
          
-        gameTimes, startTimes = self.rws.get_game_times()
 
         opt = MlbOptimizer.MlbOptimizer(date, cursor)
         opt.getPlayers(date)
-        for time in startTimes:
-            opt.generateLineups("rotowire", 1, date, time, gameTimes)
+
+        for slate in self.slates:
+            opt.generateLineups("rotowire", 1, date, time, slate)
             opt.insertLineups(cursor)
-            opt.generateLineups("rotoGrinders", 1, date, time, gameTimes)
+            opt.generateLineups("rotoGrinders", 1, date, time, slate)
             opt.insertLineups(cursor)
-            opt.generateLineups("average", 1, date, time, gameTimes)
+            opt.generateLineups("average", 1, date, time, slate)
             opt.insertLineups(cursor)
 
     # gets lineups for that are closest to a specific time
-    def getLineups(self, cursor, date, time):
-
-       
-        self.rws.get_soup() 
-        gameTimes, startTimes = self.rws.get_game_times()
-        startTimes = sorted(startTimes)
-        closestStart = 0
-        
-        for sTime in startTimes:
-            if closestStart <= sTime:
-                closestStart = sTime
-
-
-        query = "Select * from lineups where date=%s and lineupTime=%s"
+    def getLineups(self, cursor, date, slate):
+         
+        query = "Select * from lineups where date=%s and slateName=%s"
         cursor.execute(query, (date, closestStart))
         return cursor.fetchall()
 

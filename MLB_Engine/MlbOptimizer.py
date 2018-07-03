@@ -17,11 +17,11 @@ class MlbOptimizer():
         self.cursor.execute(query)
         self.players = self.cursor.fetchall()
 
-    def generateLineups(self, op_type, numLineups, date, time, gameTimes):
+    def generateLineups(self, op_type, numLineups, date, time, slate):
         opt_players = []
         count = 0
         for player in self.players:
-            if gameTimes[player[3]] >= time: 
+            if player[3] in slate.teams: 
                 # if proj is null
                 if player[6] is None:
                     proj = player[5]
@@ -45,7 +45,7 @@ class MlbOptimizer():
             for player in lineup.players:
                 sublineup.append(player.first_name)
             points = lineup.fantasy_points_projection
-            self.my_lineups.append(WsaLineups.WsaLineup(sublineup, date, time, points, op_type))
+            self.my_lineups.append(WsaLineups.WsaLineup(sublineup, date, slate.name, points, op_type))
 
     def insertLineups(self, cursor):
         count = 1 

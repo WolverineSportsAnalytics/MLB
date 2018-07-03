@@ -35,10 +35,10 @@ CREATE TABLE IF NOT EXISTS `mlb`.`lineups` (
   `OF2` VARCHAR(45),
   `OF3` VARCHAR(45),
   `UTIL` VARCHAR(45),
-  `lineupTime` TIME,
+  `slateName` varchar(45),
   `projectedPoints` float,
   `lineupType` VARCHAR(45),
-  PRIMARY KEY (`date`, `lineupTime`, `lineupNumber`, `lineupType`)
+  PRIMARY KEY (`date`, `slateName`, `lineupNumber`, `lineupType`)
 )
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = latin1;
