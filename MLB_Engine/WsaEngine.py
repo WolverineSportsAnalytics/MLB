@@ -4,6 +4,7 @@ import MlbOptimizer
 import mysql.connector
 import datetime
 from selenium import webdriver
+import WsaLineups
 from selenium.webdriver.chrome.options import Options  
 from selenium.webdriver.common.keys import Keys
 from bs4 import BeautifulSoup, Comment
@@ -87,14 +88,25 @@ class WsaEngine():
          
         query = "Select * from lineups where date=%s and slateName=%s"
         cursor.execute(query, (date, closestStart))
-        return cursor.fetchall()
+        fetchedLineups = cursor.fetchall()
+        lineups = []
+        for line in fetchedLineups:
+            lineups.append(WsaLineups.WsaLineup(line[2:11], line[1], line[11], line[12], line[13]))
+
+        return lineups
 
     # get all lineups for a day
     def getAllLineups(self, cursor, date):
 
         query = "Select * from lineups where date=%s"
         cursor.execute(query, (date,) )
-        return cursor.fetchall()
+        fetchedLineups = cursor.fetchall()
+        lineups = []
+        for line in fetchedLineups:
+            lineups.append(WsaLineups.WsaLineup(line[2:11], line[1], line[11], line[12], line[13]))
+
+        return lineups
+
         
 
 def genMlbLineups():
