@@ -12,6 +12,7 @@ install:
   - pip install selenium 
   - pip install mysql-connector
   - pip install pydfs-lineup-optimizer
+  - pip install django 
 script: 
   pytest --cov=MLB_Engine tests/;
 after_success:
