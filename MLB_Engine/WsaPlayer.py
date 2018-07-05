@@ -10,13 +10,13 @@ class WsaPlayer():
 
     def insertTable(self, cursor, date):
         
-        query = "Insert into players (date, name, position, team, salary, RotoWireProjection, RotoGrindersProjection) values(%s, %s, %s, %s, %s, %s, %s) on duplicate key update" 
+        query = "Insert into players (date, name, position, team, salary, RotoWireProjection, RotoGrindersProjection) values(%s, %s, %s, %s, %s, %s, %s) on duplicate key update salary=%s," 
 
         if self.WireProj is None:
             query += " RotoGrindersProjection=%s"
-            inserts = (date, self.name, self.pos, self.team, int(self.sal), self.WireProj, self.GrinderProj, self.GrinderProj)
+            inserts = (date, self.name, self.pos, self.team, int(self.sal), self.WireProj, self.GrinderProj, int(self.sal), self.GrinderProj)
         elif self.GrinderProj is None:
-            inserts = (date, self.name, self.pos, self.team, int(self.sal), self.WireProj, self.GrinderProj, self.WireProj, self.team)
+            inserts = (date, self.name, self.pos, self.team, int(self.sal), self.WireProj, self.GrinderProj, int(self.sal), self.WireProj, self.team)
             query += " RotoWireProjection=%s, team=%s"
 
         cursor.execute(query, inserts)
