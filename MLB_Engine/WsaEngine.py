@@ -7,8 +7,10 @@ from selenium import webdriver
 import WsaLineups
 from selenium.webdriver.chrome.options import Options  
 from selenium.webdriver.common.keys import Keys
+from django.core.cache import cache
 from bs4 import BeautifulSoup, Comment
-import time
+import time, os
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "DjangoSettings")
 
 teamMap = {"CHW":"CWS", "TBR":"TB", "SDP":"SD", "KCR":"KC", "SFG":"SF"}
 
@@ -110,11 +112,11 @@ class WsaEngine():
         
 
 def genMlbLineups():
-        cnx = mysql.connector.connect(user="root",
-                host="127.0.0.1",
-                database="mlb",
-                password="")                                                                                                               
-        cursor = cnx.cursor()
+        #cnx = mysql.connector.connect(user="root",
+        #        host="127.0.0.1",
+        #        database="mlb",
+        #        password="")                                                                                                               
+        #cursor = cnx.cursor()
         
         today = datetime.datetime.now().strftime('%Y-%m-%d')
         time = datetime.datetime.now().strftime('%H:%M:%S')
@@ -122,6 +124,9 @@ def genMlbLineups():
         gen = WsaEngine()
         gen.get_slates()
         gen.setLineups(cursor,cnx, today)
+        lineups = gen.getAllLineups(cursor, today)
+        cache.set("MlbLineups", lineups)
+
 
         cnx.commit()
 
