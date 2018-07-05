@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 import RotoGuruScraperMLB as rgs
 import RotoWireScraper as rws
 import MlbOptimizer 
