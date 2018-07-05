@@ -9,6 +9,7 @@ install:
   - pip install coveralls
   - pip install bs4 
   - pip install pytz 
+  - pip install selenium 
   - pip install mysql-connector
   - pip install pydfs-lineup-optimizer
 script: 
