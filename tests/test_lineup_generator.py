@@ -4,7 +4,7 @@ import sys
 from os import path
 sys.path.append("../../MLB")
 from MLB_Engine import RotoGuruScraperMLB as rgs
-from MLB_Engine import WsaLineups, MlbOptimizer
+from MLB_Engine import WsaLineups, MlbOptimizer, WsaEngine
 from MLB_Engine import RotoWireScraper as rws
 from bs4 import BeautifulSoup, Comment
 import datetime
@@ -65,9 +65,14 @@ class TestLineupGenerator(unittest.TestCase):
         roto.soup = BeautifulSoup(page, 'html.parser')
 
         gameTimes, startTimes = roto.get_game_times()
-        print gameTimes
+        teams = []
+        for team in gameTimes:
+            teams.append(team)
 
-        optimize.generateLineups("rotowire", 2, today, "00:00:01", gameTimes)
+        slate = WsaEngine.Slate(teams, "All")
+         
+
+        optimize.generateLineups("rotowire", 2, today, "00:00:01", slate)
         self.assertEqual(optimize.my_lineups[1].points, 138.37)
 
     def testInsert(self):
@@ -85,8 +90,14 @@ class TestLineupGenerator(unittest.TestCase):
         roto.soup = BeautifulSoup(page, 'html.parser')
 
         gameTimes, startTimes = roto.get_game_times()
+        teams = []
+        for team in gameTimes:
+            teams.append(team)
 
-        optimize.generateLineups("rotowire", 2, today, "00:00:01", gameTimes)
+        slate = WsaEngine.Slate(teams, "All")
+            
+
+        optimize.generateLineups("rotowire", 2, today, "00:00:01", slate)
         optimize.insertLineups(cursor)
         cnx.commit()
 
