@@ -119,6 +119,11 @@ def genMlbLineups():
         #        database="mlb",
         #        password="")                                                                                                               
         #cursor = cnx.cursor()
+        cnx = mysql.connector.connect(user="wsa@wsabasketball",
+                host="wsabasketball.mysql.database.azure.com",
+                database="mlb",
+                password="LeBron>MJ!")
+        cursor = cnx.cursor()
         
         today = datetime.datetime.now().strftime('%Y-%m-%d')
         time = datetime.datetime.now().strftime('%H:%M:%S')
