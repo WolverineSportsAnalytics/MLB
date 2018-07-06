@@ -114,11 +114,11 @@ class WsaEngine():
         
 
 def genMlbLineups():
-        #cnx = mysql.connector.connect(user="root",
-        #        host="127.0.0.1",
-        #        database="mlb",
-        #        password="")                                                                                                               
-        #cursor = cnx.cursor()
+        cnx = mysql.connector.connect(user="root",
+                host="127.0.0.1",
+                database="mlb",
+                password="")                                                                                                               
+        cursor = cnx.cursor()
         
         today = datetime.datetime.now().strftime('%Y-%m-%d')
         time = datetime.datetime.now().strftime('%H:%M:%S')
