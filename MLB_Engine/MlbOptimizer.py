@@ -45,7 +45,8 @@ class MlbOptimizer():
             for player in lineup.players:
                 sublineup.append(player.first_name)
             points = lineup.fantasy_points_projection
-            self.my_lineups.append(WsaLineups.WsaLineup(sublineup, date, slate.name, points, op_type))
+            if slate.name != "All":
+                self.my_lineups.append(WsaLineups.WsaLineup(sublineup, date, slate.name, points, op_type))
 
     def insertLineups(self, cursor):
         count = 1 
