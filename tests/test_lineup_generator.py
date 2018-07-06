@@ -94,7 +94,7 @@ class TestLineupGenerator(unittest.TestCase):
         for team in gameTimes:
             teams.append(team)
 
-        slate = WsaEngine.Slate(teams, "All")
+        slate = WsaEngine.Slate(teams, "7:05 Late Switch")
             
 
         optimize.generateLineups("rotowire", 2, today, "00:00:01", slate)
