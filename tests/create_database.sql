@@ -51,6 +51,7 @@ CREATE TABLE IF NOT EXISTS `mlb`.`players` (
   `Salary` float default NULL,
   `RotoWireProjection` float default NULL,
   `RotoGrindersProjection` float default NULL,
+  `fanduelPoints` float default NULL,
   PRIMARY KEY (`date`, `Name`)
 )
 ENGINE = InnoDB
