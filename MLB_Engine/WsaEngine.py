@@ -27,12 +27,13 @@ class WsaEngine():
     def __init__(self):
         self.rgsHitters = rgs.RotoGuruScraper("https://rotogrinders.com/projected-stats/mlb-hitter.csv?site=fanduel")
         self.rgsPitchers = rgs.RotoGuruScraper("https://rotogrinders.com/projected-stats/mlb-pitcher.csv?site=fanduel")
-        self.rws = rws.RotoScraper( "https://www.rotowire.com/daily/mlb/optimizer.php?site=FanDuel&sport=mlb")
+        self.rws = rws.RotoScraper( "https://www.rotowire.com/daily/tables/optimizer-mlb.php?sport=MLB&site=FanDuel&projections=&type=main&slate=all")
         
     def get_slates(self):
         chrome_options = Options()  
         chrome_options.add_argument("--headless")  
         browser = webdriver.Chrome(executable_path=("./chromedriver"),   chrome_options=chrome_options)
+        #browser = webdriver.Chrome(executable_path=("/home/wsaadmin/MLB/MLB_Engine/chromedriver"),   chrome_options=chrome_options)
         
         url = "https://rotogrinders.com/lineuphq/mlb?site=fanduel"
         browser.get(url) #navigate to the page
@@ -132,7 +133,7 @@ def genMlbLineups():
         gen.get_slates()
         gen.setLineups(cursor,cnx, today)
         lineups = gen.getAllLineups(cursor, today)
-        cache.set("MlbLineups", lineups)
+        cache.set("MlbLineups", lineups, (12 *(60 * 60))) # set cache ttl to 12 hours 
 
 
         cnx.commit()
