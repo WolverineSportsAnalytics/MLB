@@ -4,6 +4,7 @@ from pydfs_lineup_optimizer import * # version >= 2.0.1
 import datetime
 from pytz import timezone
 from WsaPlayer import WsaPlayer
+import json
 
 '''
 Fanduel Scraper that scrapes rotoWire for predicitions and returns a WsaPlayer list
@@ -30,30 +31,29 @@ class RotoScraper():
         return self.gameTimes, set(self.startTimes)
     
     def get_soup(self):
-        page = requests.get(self.url)
-        self.soup = BeautifulSoup(page.text, "html.parser")
+	pass # no longer need Beutiful soup as page is in JSON
 
     def get_players(self):
-        playersSoup = self.soup.find_all('tr')
-        for i,count in zip(playersSoup[4:],range(len(playersSoup)-4)):
-            try:
-                name  = i.find_all('td')[1].text # name 
-                names = name.split()
-                name = names[0] + ' ' + names[1]
-                
-                
-                team  = i.find_all('td')[2].text.rstrip()# team
+        page = requests.get(self.url)
+	players = json.loads(str(page.text)) # Load from JSON
 
-                pos = i.find_all('td')[3].text # pos
+        for player in players:
+            try:
+                first_name = player['first_name'] 
+                last_name = player['last_name']
+                name = first_name + ' ' + last_name
+                
+                
+                team  = player['team'] 
+
+                pos = player['position'] # pos
                 if pos == 'C1':
                     pos = ['1B','C']
                 else:
                     pos = [str(pos)]
-                sal = i.find_all('td')[6].find('input')['value']
-                sal = sal[1:]
-                sals = sal.split(",")
-                sal = sals[0] + sals[1]
-                rotoProj = i.find_all('td')[7].find('input')['value']
+
+                sal = player['salary']
+                rotoProj = player['proj_rotowire']
                 self.players.append(WsaPlayer(name, sal, team, pos, rotoProj, None))
 
             except Exception as e:
