@@ -29,22 +29,22 @@ class RotoScraper():
             self.startTimes.append(time)
 
         return self.gameTimes, set(self.startTimes)
-    
+
     def get_soup(self):
-	pass # no longer need Beutiful soup as page is in JSON
+        pass # no longer need Beutiful soup as page is in JSON
 
     def get_players(self):
         page = requests.get(self.url)
-	players = json.loads(str(page.text)) # Load from JSON
+        players = json.loads(str(page.text)) # Load from JSON
 
         for player in players:
             try:
-                first_name = player['first_name'] 
+                first_name = player['first_name']
                 last_name = player['last_name']
                 name = first_name + ' ' + last_name
-                
-                
-                team  = player['team'] 
+
+
+                team  = player['team']
 
                 pos = player['position'] # pos
                 if pos == 'C1':
