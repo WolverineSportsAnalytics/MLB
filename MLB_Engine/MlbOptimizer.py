@@ -39,17 +39,17 @@ class MlbOptimizer():
         optimizer = get_optimizer(Site.FANDUEL, Sport.BASEBALL)
         optimizer.load_players(opt_players)
 
-	try:
-        	lineups = optimizer.optimize(n=numLineups, max_exposure=0.3)
-        	for lineup in lineups:
-        	    sublineup = []
-        	    for player in lineup.players:
-        	        sublineup.append(player.first_name)
-        	    points = lineup.fantasy_points_projection
-        	    if slate.name != "All":
-        	        self.my_lineups.append(WsaLineups.WsaLineup(sublineup, date, slate.name, points, op_type))
-	except:
-		pass
+        try:
+            lineups = optimizer.optimize(n=numLineups, max_exposure=0.3)
+            for lineup in lineups:
+                sublineup = []
+                for player in lineup.players:
+                    sublineup.append(player.first_name)
+                points = lineup.fantasy_points_projection
+                if slate.name != "All":
+                    self.my_lineups.append(WsaLineups.WsaLineup(sublineup, date, slate.name, points, op_type))
+        except:
+            pass
 
     def insertLineups(self, cursor):
         count = 1 

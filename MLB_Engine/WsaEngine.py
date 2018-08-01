@@ -115,15 +115,16 @@ class WsaEngine():
         
 
 def genMlbLineups():
+<<<<<<< HEAD
         #cnx = mysql.connector.connect(user="root",
         #        host="127.0.0.1",
         #        database="mlb",
         #        password="")                                                                                                               
         #cursor = cnx.cursor()
-        cnx = mysql.connector.connect(user="wsa@wsabasketball",
-                host="wsabasketball.mysql.database.azure.com",
+        cnx = mysql.connector.connect(user="root",
+                host="127.0.0.1",
                 database="mlb",
-                password="LeBron>MJ!")
+                password="")                                                                                                               
         cursor = cnx.cursor()
         
         today = datetime.datetime.now().strftime('%Y-%m-%d')
