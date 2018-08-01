@@ -115,7 +115,6 @@ class WsaEngine():
         
 
 def genMlbLineups():
-<<<<<<< HEAD
         #cnx = mysql.connector.connect(user="root",
         #        host="127.0.0.1",
         #        database="mlb",
